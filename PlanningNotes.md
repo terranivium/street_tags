@@ -15,6 +15,6 @@ Technology used:
 - Django
 - Anaconda (virtual env)
 - JavaScript (interface functionality)
-- Google Maps API
+- Google Maps or similar API (using mapbox)
 - PythonAnywhere (host service)
 
