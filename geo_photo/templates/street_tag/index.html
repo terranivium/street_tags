@@ -49,8 +49,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidGVycmFuaXZpdW0iLCJhIjoiY2tndGwxMmk3MGY1bTJ5b
 
 // for clickable coords //
 
-var latitude = document.getElementById('latitude');
-var longitude = document.getElementById('longitude');
+// var latitude = document.getElementById('latitude');
+// var longitude = document.getElementById('longitude');
 
 var map = new mapboxgl.Map({
   container: 'map',
@@ -59,52 +59,49 @@ var map = new mapboxgl.Map({
   zoom: 9
   });
 
-// code from the next step will go here!
-var geojson = {
-  type: 'FeatureCollection',
-  features: [{
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [-4.25, 55.86]
-    },
-    properties: {
-      title: 'Glasgow',
-      Picture: ['/media/mapbox-icon.png', '/media/mapbox-icon.png']
-    }
-  },
-  {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [-122.414, 37.776]
-    },
-    properties: {
-      title: 'Mapbox',
-      description: 'San Francisco, California'
-    }
-  }]
-};
+// var geojson = {
+//   type: 'FeatureCollection',
+//   features: [{
+//     type: 'Feature',
+//     geometry: {
+//       type: 'Point',
+//       coordinates: [-4.25, 55.86]
+//     },
+//     properties: {
+//       title: 'Glasgow',
+//       Picture: ['/media/mapbox-icon.png', '/media/mapbox-icon.png']
+//     }
+//   },
+//   {
+//     type: 'Feature',
+//     geometry: {
+//       type: 'Point',
+//       coordinates: [-122.414, 37.776]
+//     },
+//     properties: {
+//       title: 'Mapbox',
+//       description: 'San Francisco, California'
+//     }
+//   }]
+// };
 
 // add markers to map
-geojson.features.forEach(function(marker) {
+// geojson.features.forEach(function(marker) {
 
-  // create a HTML element for each feature
-  var el = document.createElement('div');
-  el.className = 'marker';
+{% if photos %}
+	{% for photo in photos %}
+		// create a HTML element for each feature
+  		var el = document.createElement('div');
+  		el.className = 'marker';
 
-  // make a marker for each feature and add to the map
-  new mapboxgl.Marker(el)
-    .setLngLat(marker.geometry.coordinates)
-    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-    	.setHTML('<h3>' + marker.properties.title + '</h3><p>' +
-    		'<img src="'+ marker.properties.Picture[0] +'" style="width:100px;height:100px;">' +
-    		'<img src="'+ marker.properties.Picture[1] +'" style="width:100px;height:100px;">' + 
-    		'</p>'))
-    .addTo(map);
-});
-
-
+  		// make a marker for each feature and add to the map
+  		new mapboxgl.Marker(el)
+    		.setLngLat([{{photo.lon}},{{photo.lat}}])
+    		.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+    			.setHTML('<img src=media/{{photo.image}}>'))
+    		.addTo(map);
+    {% endfor %}
+{% endif %}
 </script>
 
 </body>
