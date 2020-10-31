@@ -1,0 +1,23 @@
+<!DOCTYPEhtml>
+<html> 
+	<head>
+		<title>Street Tags: Add Photo</title> 
+	</head>
+	<body>
+		<h1>Add a Photo</h1> 
+		<div>
+			<form id="photo_form" enctype="multipart/form-data" method="post" action="/street_tag/add_photo/"> 
+				{% csrf_token %}
+				{% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                    {{ field.errors }}
+                    {{ field.help_text }}
+                	{{ field }}
+				{% endfor %}
+				<input type="submit" name="submit" value="Create Photo" /> 
+			</form>
+		</div>
+	</body>
+</html>

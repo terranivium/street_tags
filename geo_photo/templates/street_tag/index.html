@@ -2,107 +2,73 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title></title>
+    <title>Street Tags: Mark your photos on the map!</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
+		body {
+		margin: 0;
+		padding: 0;
+		}
 
-      #map {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-      }
+		#map {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 100%;
+		}
 
-      .marker {
+		.marker {
 		background-image: url('/media/mapbox-icon.png');
 		background-size: cover;
-		width: 50px;
-		height: 50px;
+		width: 25px;
+		height: 25px;
 		border-radius: 50%;
 		cursor: pointer;
-	  }
+		}
 
-	  .mapboxgl-popup {
-  		max-width: 200px;
-	  }
+		.mapboxgl-popup {
+			max-width: 200px;
+		}
 
-	  .mapboxgl-popup-content {
-  		text-align: center;
-  		font-family: 'Open Sans', sans-serif;
-	  }
+		.mapboxgl-popup-content {
+			text-align: center;
+			font-family: 'Open Sans', sans-serif;
+		}
     </style>
 </head>
 <body>
-
+<div>
+<a href="/street_tag/add_photo/">Add your own photo</a><br />
+</div>
 <div id='map'></div>
-
 <script>
-
-mapboxgl.accessToken = 'pk.eyJ1IjoidGVycmFuaXZpdW0iLCJhIjoiY2tndGwxMmk3MGY1bTJ5bmFud3l4d2d2eSJ9.YaCL14cu5Hfc1dIXZcTN_A';
-
-// for clickable coords //
-
-// var latitude = document.getElementById('latitude');
-// var longitude = document.getElementById('longitude');
+mapboxgl.accessToken = '{{mapbox_access_token}}';
 
 var map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/light-v10',
-  center: [-4.25, 55.86],
-  zoom: 9
-  });
-
-// var geojson = {
-//   type: 'FeatureCollection',
-//   features: [{
-//     type: 'Feature',
-//     geometry: {
-//       type: 'Point',
-//       coordinates: [-4.25, 55.86]
-//     },
-//     properties: {
-//       title: 'Glasgow',
-//       Picture: ['/media/mapbox-icon.png', '/media/mapbox-icon.png']
-//     }
-//   },
-//   {
-//     type: 'Feature',
-//     geometry: {
-//       type: 'Point',
-//       coordinates: [-122.414, 37.776]
-//     },
-//     properties: {
-//       title: 'Mapbox',
-//       description: 'San Francisco, California'
-//     }
-//   }]
-// };
+	container: 'map',
+	style: 'mapbox://styles/mapbox/light-v10',
+	center: [-4.25, 55.86],
+	zoom: 9
+	});
 
 // add markers to map
-// geojson.features.forEach(function(marker) {
-
 {% if photos %}
 	{% for photo in photos %}
 		// create a HTML element for each feature
   		var el = document.createElement('div');
   		el.className = 'marker';
 
-  		// make a marker for each feature and add to the map
+  		// make a marker for each db entry and add to the map
   		new mapboxgl.Marker(el)
     		.setLngLat([{{photo.lon}},{{photo.lat}}])
     		.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-    			.setHTML('<img src=media/{{photo.image}}>'))
+    			.setHTML('<img src=media/{{photo.image}} style="width:250px;height:250px;">')) // pop up contents
     		.addTo(map);
     {% endfor %}
 {% endif %}
 </script>
-
 </body>
 </html>
