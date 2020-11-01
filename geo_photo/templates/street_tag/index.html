@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title>Street Tags: Mark your photos on the map!</title>
+    <title>Street Tags: your photos on the map!</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
@@ -14,10 +14,16 @@
 		}
 
 		#map {
-		position: absolute;
+		/*position: absolute;*/
 		top: 0;
 		bottom: 0;
-		width: 100%;
+		width: 90vw;
+		height: 90vh;
+		}
+
+		.main {
+			position: relative;
+			height: 100%;
 		}
 
 		.marker {
@@ -30,7 +36,7 @@
 		}
 
 		.mapboxgl-popup {
-			max-width: 200px;
+			max-width: 350px;
 		}
 
 		.mapboxgl-popup-content {
@@ -40,35 +46,44 @@
     </style>
 </head>
 <body>
-<div>
-<a href="/street_tag/add_photo/">Add your own photo</a><br />
-</div>
-<div id='map'></div>
-<script>
-mapboxgl.accessToken = '{{mapbox_access_token}}';
+	<div class="main"> 
+		<div>
+			<a href="/street_tag/add_photo/">Add your own photo</a><br />
+		</div>
+		<div id='map'></div>
+	</div>
 
-var map = new mapboxgl.Map({
-	container: 'map',
-	style: 'mapbox://styles/mapbox/light-v10',
-	center: [-4.25, 55.86],
-	zoom: 9
-	});
+	<script>
+		mapboxgl.accessToken = '{{mapbox_access_token}}';
 
-// add markers to map
-{% if photos %}
-	{% for photo in photos %}
-		// create a HTML element for each feature
-  		var el = document.createElement('div');
-  		el.className = 'marker';
+		var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/light-v10',
+			center: [-4.25, 55.86],
+			zoom: 9
+			});
 
-  		// make a marker for each db entry and add to the map
-  		new mapboxgl.Marker(el)
-    		.setLngLat([{{photo.lon}},{{photo.lat}}])
-    		.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-    			.setHTML('<img src=media/{{photo.image}} style="width:250px;height:250px;">')) // pop up contents
-    		.addTo(map);
-    {% endfor %}
-{% endif %}
-</script>
+		// add navigation controls 
+		map.addControl(new mapboxgl.NavigationControl());
+
+		// add markers to map
+		{% if photos %}
+			{% for photo in photos %}
+				// create a HTML element for each feature
+		  		var el = document.createElement('div');
+		  		el.className = 'marker';
+
+		  		// if condition where marker already exists
+
+		  		// make a marker for each db entry and add to the map
+		  		new mapboxgl.Marker(el)
+		    		.setLngLat([{{photo.lon}},{{photo.lat}}])
+		    		.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+		    			.setHTML('<img src=media/{{photo.image}} style="width:350px;height:350px;">')) // pop up contents
+		    		.addTo(map);
+		    {% endfor %}
+		{% endif %}
+	</script>
+
 </body>
 </html>
