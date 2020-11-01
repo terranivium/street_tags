@@ -3,12 +3,13 @@
 
 Technologies Used:
 
-Anaconda (Virtual Environment)
-Django (Web Framework)
-Python
-SQLite (DB)
-JavaScript
-Mapbox API
+ - Anaconda (Virtual Environment)
+ - Django (Web Framework)
+ - Python
+ - HTML/CSS
+ - SQLite (DB)
+ - JavaScript
+ - Mapbox API
 
 For an online demo see:
 
