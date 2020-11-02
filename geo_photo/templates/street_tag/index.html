@@ -14,11 +14,25 @@
 		}
 
 		#map {
-		/*position: absolute;*/
-		top: 0;
-		bottom: 0;
-		width: 90vw;
-		height: 90vh;
+			/*position: absolute;*/
+			top: 0;
+			bottom: 0;
+			width: 100vw;
+			height: 90vh;
+		}
+
+		#info {
+			display: block;
+			position: relative;
+			margin: 0px auto;
+			width: 50%;
+			padding: 10px;
+			border: none;
+			border-radius: 3px;
+			font-size: 12px;
+			text-align: center;
+			color: #222;
+			background: #fff;
 		}
 
 		.main {
@@ -27,16 +41,17 @@
 		}
 
 		.marker {
-		background-image: url('/media/mapbox-icon.png');
-		background-size: cover;
-		width: 25px;
-		height: 25px;
-		border-radius: 50%;
-		cursor: pointer;
+			background-image: url('/media/mapbox-icon.png');
+			background-size: cover;
+			width: 25px;
+			height: 25px;
+			border-radius: 50%;
+			cursor: pointer;
 		}
 
 		.mapboxgl-popup {
-			max-width: 350px;
+			max-width: 100vw;
+			max-height: 100vh;
 		}
 
 		.mapboxgl-popup-content {
@@ -51,6 +66,7 @@
 			<a href="/street_tag/add_photo/">Add your own photo</a><br />
 		</div>
 		<div id='map'></div>
+		<pre id="info"></pre>
 	</div>
 
 	<script>
@@ -61,6 +77,11 @@
 			style: 'mapbox://styles/mapbox/light-v10',
 			center: [-4.25, 55.86],
 			zoom: 9
+			});
+
+		map.on('mousemove', function (e) {
+			document.getElementById('info').innerHTML =
+			JSON.stringify(e.lngLat.wrap());
 			});
 
 		// add navigation controls 
@@ -79,7 +100,7 @@
 		  		new mapboxgl.Marker(el)
 		    		.setLngLat([{{photo.lon}},{{photo.lat}}])
 		    		.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-		    			.setHTML('<img src=media/{{photo.image}} style="width:350px;height:350px;">')) // pop up contents
+		    			.setHTML('<img src=media/{{photo.image}}>')) // pop up contents
 		    		.addTo(map);
 		    {% endfor %}
 		{% endif %}
