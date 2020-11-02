@@ -80,6 +80,12 @@
 		.mapboxgl-popup-content {
 			text-align: center;
 			font-family: 'Open Sans', sans-serif;
+			width: 300px;
+		}
+
+		.thumbnail {
+			max-width:100%;
+    		height:auto;
 		}
     </style>
 </head>
@@ -140,6 +146,8 @@
 
 		});
 
+
+
 		// add markers to map
 		{% if photos %}
 			{% for photo in photos %}
@@ -153,7 +161,7 @@
 		  		new mapboxgl.Marker(el)
 		    		.setLngLat([{{photo.lon}},{{photo.lat}}])
 		    		.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-		    			.setHTML('<a href="media/{{photo.image}}"><img src=media/{{photo.image}}>')) // pop up contents
+		    			.setHTML('<a href="media/{{photo.image}}"><img src=media/{{photo.image}} class="thumbnail">')) // pop up contents
 		    		.addTo(map);
 		    {% endfor %}
 		{% endif %}

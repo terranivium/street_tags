@@ -3,12 +3,8 @@ from django.core.exceptions import ValidationError
 
 # image upload validation
 def validate_image(image):
-	max_height = 350
-	max_width = 350
-	height = image.height
-	width = image.width
-	if width > max_width or height > max_height:
-		raise ValidationError("Height or Width is larger than what is allowed (350px)")
+	if image.size > 4*1024*1024:
+		raise ValidationError("Filesize is too large (>4MB)")
 
 class Photo(models.Model):
 	lon = models.DecimalField(max_digits=18, decimal_places=15, blank=True, null=True)
