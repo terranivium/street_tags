@@ -6,15 +6,8 @@ from django.shortcuts import redirect
 
 def index(request):
 	mapbox_access_token = 'pk.eyJ1IjoidGVycmFuaXZpdW0iLCJhIjoiY2tndGwxMmk3MGY1bTJ5bmFud3l4d2d2eSJ9.YaCL14cu5Hfc1dIXZcTN_A'
-	photo_list = Photo.objects.order_by()[:5] #order by?
+	photo_list = Photo.objects.order_by()
 
-	context_dict = {}
-	context_dict['photos'] = photo_list
-	context_dict['mapbox_access_token'] = mapbox_access_token
-
-	return render(request, 'street_tag/index.html', context=context_dict)
-
-def add_photo(request): 
 	form = PhotoForm()
 
 	# A HTTP POST?
@@ -30,4 +23,10 @@ def add_photo(request):
 		else:
 			# just print them to the terminal.
 			print(form.errors)
-	return render(request, 'street_tag/add_photo.html', {'form': form})
+
+	context_dict = {}
+	context_dict['photos'] = photo_list
+	context_dict['mapbox_access_token'] = mapbox_access_token
+	context_dict['form'] = form
+
+	return render(request, 'street_tag/index.html', context=context_dict)

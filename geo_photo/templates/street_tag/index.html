@@ -25,7 +25,7 @@
 			top: 0;
 			bottom: 0;
 			width: 100vw;
-			height: 90vh;
+			height: 80vh;
 		}
 
 		#info {
@@ -33,6 +33,20 @@
 			position: relative;
 			margin: 0px auto;
 			width: 50%;
+			padding: 10px;
+			border: none;
+			border-radius: 3px;
+			font-size: 12px;
+			text-align: center;
+			color: #222;
+			background: #fff;
+		}
+
+		#photo_form {
+			display: block;
+			position: relative;
+			margin: 0px auto;
+			width: 100%;
 			padding: 10px;
 			border: none;
 			border-radius: 3px;
@@ -72,7 +86,7 @@
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 	    <div class="container">
-	      <a class="navbar-brand" href="#">Street Tags</a>
+	      <a class="navbar-brand" href="/">Street Tags</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -83,9 +97,6 @@
 	              <span class="sr-only">(current)</span>
 	            </a>
 	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link" href="/street_tag/add_photo/">Add your photo</a>
-	          </li>
 	        </ul>
 	      </div>
 	    </div>
@@ -93,7 +104,18 @@
 
 	<div class="main"> 
 		<div id='map'></div>
-		<div id="info"></div>
+		<div id="info">Right click anywhere on the map to enter coordinates<br /></div>
+		<div>
+			<form id="photo_form" enctype="multipart/form-data" method="post" action="/"> 
+				{% csrf_token %}
+                {% for field in form.visible_fields %}
+                    {{ field.errors }}
+                    {{ field.help_text }}
+                	{{ field }}
+				{% endfor %}
+				<input type="submit" name="submit" value="Add photo to map!" /> 
+			</form>
+		</div>
 	</div>
 
 	<script>
@@ -102,14 +124,19 @@
 		var map = new mapboxgl.Map({
 			container: 'map',
 			style: 'mapbox://styles/mapbox/light-v10',
-			center: [-4.25, 55.86],
+			center: [-4.27, 55.87],
 			zoom: 12
-			});
+		});
 
-		map.on('mousemove', function (e) {
+		map.dragRotate.disable();
+
+		map.on('contextmenu', function (e) {
 			document.getElementById('info').innerHTML =
-			JSON.stringify(e.lngLat.wrap());
-			});
+			'Right click anywhere on the map to enter coordinates<br />'
+			document.getElementById("id_lat").value = e.lngLat.lat;
+			document.getElementById("id_lon").value = e.lngLat.lng;
+
+		});
 
 		// add markers to map
 		{% if photos %}
@@ -124,7 +151,7 @@
 		  		new mapboxgl.Marker(el)
 		    		.setLngLat([{{photo.lon}},{{photo.lat}}])
 		    		.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-		    			.setHTML('<img src=media/{{photo.image}}>')) // pop up contents
+		    			.setHTML('<a href="media/{{photo.image}}"><img src=media/{{photo.image}}>')) // pop up contents
 		    		.addTo(map);
 		    {% endfor %}
 		{% endif %}

@@ -11,6 +11,6 @@ def validate_image(image):
 		raise ValidationError("Height or Width is larger than what is allowed (350px)")
 
 class Photo(models.Model):
-	lon = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
-	lat = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+	lon = models.DecimalField(max_digits=18, decimal_places=15, blank=True, null=True)
+	lat = models.DecimalField(max_digits=17, decimal_places=15, blank=True, null=True)
 	image = models.ImageField(blank=True, null=True, validators=[validate_image])
