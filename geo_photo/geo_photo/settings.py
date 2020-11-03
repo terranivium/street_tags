@@ -29,7 +29,7 @@ SECRET_KEY = '#@sad4n=141ps4b%rkm5h5d-#ukg@@j%z^zv#ski0#jk%t3#f$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['rangodemo2020.pythonanywhere.com',]
+ALLOWED_HOSTS = ['terranivium.pythonanywhere.com',]
 
 
 # Application definition
