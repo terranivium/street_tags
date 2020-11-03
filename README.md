@@ -13,6 +13,7 @@ Technologies Used:
 
 For an online demo see:
 http://terranivium.pythonanywhere.com/
+
 How to use this repo:
 
 NOTE: localhost(127.) must be added to ALLOWED_HOSTS in settings.py
